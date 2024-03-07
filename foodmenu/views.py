@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Item
+from .forms import AddItemForm
 
 
 # Create your views here.
@@ -22,3 +23,11 @@ def item_detail(request,item_id):
         'item':item,
     }
     return render(request,'item_detail.html',context)
+
+def add_item(request):
+    form = AddItemForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('items.html')
+    return render(request,'AddItemForm.html',{'form':form})
