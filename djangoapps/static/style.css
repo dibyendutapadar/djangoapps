@@ -1,0 +1,17 @@
+:root {
+    --aqua-blue: #17a2b8; /* Bootstrap's 'info' color, adjust as needed for aqua blue */
+    --custom-grey: #6c757d; /* A grey tone, feel free to adjust */
+}
+
+body {
+    background-color: #f8f9fa; /* Light background to complement the theme */
+}
+
+.navbar {
+    background-color: var(--aqua-blue) !important; /* Overrides Bootstrap's primary color */
+}
+
+footer {
+    background-color: var(--custom-grey) !important; /* Custom grey footer */
+    color: white;
+}
