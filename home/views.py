@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
+
 
 
 products = [
@@ -36,10 +37,9 @@ products = [
 ]
 
 
-
-
 # Create your views here.
-def index(request):
-    return render(request,'index.html')
-
-
+def home(request):
+    context={
+        'products':products,
+    }
+    return render(request,'home.html',context)
