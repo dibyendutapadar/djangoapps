@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('',views.index, name='index'),
     path('foodmenu/',include('foodmenu.urls')),
-    path('',include('home.urls'))
+    path('',include('home.urls')),
+    path('trafficsignal/',include('trafficsignal.urls')),
 ]

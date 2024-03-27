@@ -20,6 +20,11 @@
    4. register app/model in app/admin.py to access from /admin
    5. manage.py shell
    6. Fetch data from db
+      1. 1. Define Models
+      2. 2. Create Tables in the Database for a Model
+      3. 3. Update a Model
+      4. 4. Delete and Recreate a Table
+      5. Notes
 6. templates
          1. get from model
 7. Static Files
@@ -87,6 +92,34 @@
        3. Step 3: Configure `settings.py`
        4. Step 4: Access Configuration Variables
        5. Step 5: Managing Different Environments
+       6. Conclusion
+15. User Logs, Django Signals
+       1. Step 1: Set Up Your Django Project
+       2. Step 2: Create a Log Model
+       3. Step 3: Define Signals
+       4. Step 4: Connect Signals
+       5. Step 5: Test Your Signals
+       6. Conclusion
+16. Table view with action buttons
+       1. Step 1: Define Your Model
+       2. Step 2: Create a View to Display the Records
+       3. Step 3: Create the Template
+       4. Step 4: Define URL Patterns
+       5. Step 5: Implement Edit and Delete Functionality
+       6. Step 6: Test Your Application
+       7. Conclusion
+17. Sort, search, filter, pagination
+       1. Step 1: Implement Pagination
+       2. Step 2: Add Search Functionality
+       3. Step 3: Add Filtering Options
+       4. Step 4: Test Your Application
+       5. Conclusion
+18. User Roles and permissions
+       1. Step 1: Extend the User Model
+       2. Step 2: Create Groups for Roles
+       3. Step 3: Assign Users to Groups
+       4. Step 4: Check Permissions in Views
+       5. Step 5: Use Permissions in Templates
        6. Conclusion
 
 
@@ -322,6 +355,76 @@ def items(request):
     item_list = Item.objects.all()
     return HttpResponse(item_list)
 ```
+
+Certainly! Django's migration system allows you to evolve your database schema over time, as you develop your project, without losing data. Here's a short tutorial covering the basics of defining models, creating and updating tables in the database, and how to delete and recreate tables if necessary.
+
+### 1. Define Models
+
+Models in Django are Python classes that define the structure of your application's data. Each model maps to a single database table. To define a model, you create a class in `models.py` within your application directory, subclassing `django.db.models.Model`.
+
+```python
+from django.db import models
+
+class MyModel(models.Model):
+    my_field = models.CharField(max_length=100)
+    another_field = models.IntegerField()
+```
+
+### 2. Create Tables in the Database for a Model
+
+Once you have defined your models, you need to create tables in the database corresponding to those models. This is done through migrations.
+
+1. **Create Migration Files**: First, you need to create migration files for your models. Run the following command in your terminal:
+
+    ```
+    python manage.py makemigrations
+    ```
+
+    This command creates migration files in the `migrations` directory of your app, which describe the changes to be made to the database.
+
+2. **Apply Migrations**: To actually create the tables in the database, you need to apply these migrations. Run:
+
+    ```
+    python manage.py migrate
+    ```
+
+    This command applies all unapplied migrations, creating the necessary database tables and fields.
+
+### 3. Update a Model
+
+If you need to change a model (e.g., add a new field), simply edit the model class in `models.py` and then repeat the migration process:
+
+1. Modify your model in `models.py`.
+2. Create new migration files with `python manage.py makemigrations`.
+3. Apply the migrations to update the database with `python manage.py migrate`.
+
+### 4. Delete and Recreate a Table
+
+Sometimes, you might want to delete and recreate a table. This can be useful during development but be careful as it will result in loss of data in the table. Here's how you can do it:
+
+1. **Delete the Model Migration**: First, delete the migration file(s) for the model you want to reset in the `migrations` folder of your app. Be cautious as this could affect dependencies in other migrations.
+
+2. **Drop the Table**: You may need to manually drop the table from your database, depending on your database setup. For PostgreSQL, it would be something like:
+
+    ```sql
+    DROP TABLE appname_mymodel CASCADE;
+    ```
+
+    Replace `appname_mymodel` with the actual name of the table you wish to drop.
+
+3. **Recreate the Migration File**: Run `python manage.py makemigrations` again to create a new initial migration file for the model.
+
+4. **Migrate Again**: Use `python manage.py migrate` to recreate the table in the database.
+
+### Notes
+
+- It's good practice to back up your data before performing operations that could result in data loss, especially in a production environment.
+- Django's migration system is designed to allow incremental changes to your data model. It's generally better to update models and apply migrations rather than deleting and recreating tables.
+- When working with production databases, consider using migration tools and Django's `RunPython` operations within migrations for data transformations to ensure data integrity and continuity.
+
+This tutorial gives you a foundational understanding of managing database tables with Django migrations.
+
+
 
 # templates
 

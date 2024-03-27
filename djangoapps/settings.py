@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'trafficsignal.apps.TrafficsignalConfig',
     'home.apps.HomeConfig',
     'foodmenu.apps.FoodmenuConfig',
     'django.contrib.admin',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates','home/templates','foodmenu/templates'],
+        'DIRS': ['templates','home/templates','foodmenu/templates','tafficsignal/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

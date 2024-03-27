@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Signal Simulation</title>
+    <!-- Tailwind CDN for styling -->
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" style="height: 405px;">
+            <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                <thead>
+                    <tr class="text-left">
+                        <th class="bg-blue-500 text-white p-2">Direction</th>
+                        <th class="bg-blue-500 text-white p-2">Traffic Light</th>
+                        <th class="bg-blue-500 text-white p-2">Total Green Time</th>
+                        <th class="bg-blue-500 text-white p-2">Time Remaining</th>
+                        <th class="bg-blue-500 text-white p-2">Travel Duration Traffic</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for direction in crossing_data.directions %}
+                    <tr>
+                        <td class="p-2">{{ forloop.counter }}</td>
+                        <!-- Traffic Light Indicator -->
+                        <td class="p-2">
+                            <div class="traffic-light" data-id="{{ forloop.counter0 }}"
+                                style="height: 25px; width: 25px; border-radius: 50%; background-color: red;"></div>
+                        </td>
+                        <td class="p-2 allocated-time">{{ direction.signal_time }} seconds</td>
+                        <!-- Placeholder for dynamic countdown -->
+                        <td class="p-2" id="time-remaining-{{ forloop.counter0 }}">-</td>
+                        <td class="p-2">{{ direction.travel_duration_traffic }} minutes</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Display refresh timer -->
+        <p>Time to refresh <span id="refresh-timer" class="mt-4">-</span></p>
+    </div>
+
+    <!-- Script for controlling the traffic light simulation and countdown timer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const directions = Array.from(document.querySelectorAll('.traffic-light')).map((light, index) => {
+                return {
+                    id: index,
+                    lightElement: light,
+                    countdownElement: document.getElementById(`time-remaining-${index}`),
+                    allocatedTime: parseInt(light.closest('tr').querySelector('.allocated-time').textContent),
+                    remainingTime: parseInt(light.closest('tr').querySelector('.allocated-time').textContent),
+                };
+            });
+
+            let activeDirectionIndex = 0; // Start with the first direction
+            let cycleTimer = null;
+
+            function switchLights() {
+                // Reset all lights to red
+                directions.forEach((direction, index) => {
+                    direction.lightElement.style.backgroundColor = 'red';
+                    direction.countdownElement.textContent = direction.allocatedTime + ' seconds';
+                });
+
+                // Set the active light to green
+                const activeDirection = directions[activeDirectionIndex];
+                activeDirection.lightElement.style.backgroundColor = 'green';
+                activeDirection.remainingTime = activeDirection.allocatedTime; // Reset the remaining time
+
+                updateCountdown(activeDirection); // Start the countdown for the active direction
+            }
+
+            function updateCountdown(activeDirection) {
+                if (activeDirection.remainingTime >= 0) {
+                    activeDirection.countdownElement.textContent = activeDirection.remainingTime + ' seconds';
+                    activeDirection.remainingTime -= 1;
+                    setTimeout(() => updateCountdown(activeDirection), 1000);
+                } else {
+                    // Move to the next direction
+                    activeDirectionIndex = (activeDirectionIndex + 1) % directions.length;
+                    switchLights();
+                }
+            }
+
+            // Assume refresh_time is passed from Django context
+            const refreshTime = {{ refresh_time }}; // Refresh time in seconds
+            let pageRefreshCountdown = refreshTime;
+
+            // Refresh Timer
+            const refreshTimerDisplay = document.getElementById('refresh-timer');
+            refreshTimerDisplay.textContent = `Real Time Traffic Data will be updated in ${pageRefreshCountdown} seconds`;
+
+            function updatePageRefreshCountdown() {
+                if (pageRefreshCountdown > 0) {
+                    refreshTimerDisplay.textContent = `Real Time Traffic Data will be updated in ${pageRefreshCountdown} seconds`;
+                    pageRefreshCountdown -= 1;
+                    setTimeout(updatePageRefreshCountdown, 1000);
+                } else {
+                    window.location.reload(); // Refresh the page
+                }
+            }
+
+            // Initialize the traffic light switching and page refresh countdown
+            switchLights();
+            updatePageRefreshCountdown();
+        });
+    </script>
+</body>
+</html>
+

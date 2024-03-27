@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Crossing Location</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript"
+        src="https://www.bing.com/api/maps/mapcontrol?key={{ bing_map_api_key }}&callback=loadMapScenario" async defer>
+    </script>
+    <style>
+        body {
+            padding-top: 20px;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #007bff;
+        }
+
+        .step-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>Intelligent Traffic Light Service</h1>
+        <ul class="step-list">
+            <li>Step 1: Select the crossing location, number of exclusive directions of traffic flow, and the total
+                cycle time of the signal.</li>
+            <li>Step 2: Add the from and to coordinates of each direction of traffic. Try to keep the distance between
+                from and to the same for all directions.</li>
+            <li>Step 3: The code will simulate the traffic lights for each of the directions based on real-time traffic
+                data (sourced from Bing API).</li>
+        </ul>
+
+        <div class="row my-4">
+            <div class="col-lg-8">
+                <div id="map"></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-section">
+                    <h2>Select Crossing Location</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Next</button>
+                    </form>
+
+
+                    <!-- <form method="post">
+                        <p id="selected-coordinates"></p>
+                        <input type="hidden" id="coordinates_data" name="coordinates_data" value="">
+                        <div class="form-group">
+                            <label for="directions">Number of Directions of Traffic Flow:</label>
+                            <input type="number" id="directions" name="directions" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cycle_time">Traffic Signal Cycle Time (seconds):</label>
+                            <input type="number" id="cycle_time" name="cycle_time" class="form-control" required
+                                value="{{ default_cycle_time }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script>
+        var map, center;
+
+        function loadMapScenario() {
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    center = new Microsoft.Maps.Location(
+                        position.coords.latitude,
+                        position.coords.longitude
+                    );
+                }, function (error) {
+                    // Handle error or fallback here if getCurrentPosition fails
+                    console.error(error);
+                    center = new Microsoft.Maps.Location(12.920562664099393,
+                    77.66527439405061); // Fallback center
+                });
+            } 
+            // center = new Microsoft.Maps.Location(12.920562664099393, 77.66527439405061);
+            map = new Microsoft.Maps.Map(document.getElementById('map'), {
+                credentials: 'Ah8vU7MSfvjmIDk4YQdsOVI7IlPFAFbolbfUxPnW4Xloujt5qA20h5OyAyk7cnLc',
+                mapTypeId: Microsoft.Maps.MapTypeId.road,
+                center: center,
+                zoom: 15
+            });
+
+            Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+                var location = e.location;
+                document.getElementById('id_crossing_location').value = location.latitude.toFixed(6) +
+                    ',' + location
+                    .longitude.toFixed(6);
+                map.entities.clear();
+                var pin = new Microsoft.Maps.Pushpin(location, {
+                    title: 'Selected Traffic Crossing'
+                });
+                map.entities.push(pin);
+
+                // Display the selected coordinates
+                document.getElementById('id_crossing_location').innerText = location.latitude + ', ' +
+                    location.longitude;
+
+            });
+        }
+    </script>
+</body>
+
+</html>
