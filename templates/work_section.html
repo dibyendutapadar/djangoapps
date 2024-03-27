@@ -10,11 +10,11 @@
         <div class="col-md-12">
             <p class="work-menu">
                 <span><a href="#" id="professionalWorkLink" class="active">Professional Work</a></span>
-                 <span><a href="#" id="personalProjectsLink">Personal Projects</a></span>
-                </p>
+                <span><a href="#" id="personalProjectsLink">Personal Projects</a></span>
+            </p>
         </div>
     </div>
-    <div class="row professional-work" >
+    <div class="row professional-work">
         <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
             <div class="project" style="background-image: url({% static 'images/img-1.jpg'%});">
                 <div class="desc">
@@ -107,19 +107,20 @@
         </div>
     </div>
     <div class="row personal-projects" style="display:none">
+
         <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-            <div class="project" style="background-image: url({% static 'images/img-1.jpg'%});">
-                <div class="desc">
-                    <div class="con">
-                        <h3><a href="work.html">Work 01</a></h3>
-                        <span>Website</span>
-                        <p class="icon">
+            <div class="project" style="background-image: url({% static 'images/trafficsignalapp.webp'%});">
+                    <div class="desc">
+                        <div class="con" onclick="window.location.href='{% url 'get_crossing' %}';" style="cursor: pointer;">
+                            <h3><a href="{% url 'get_crossing' %}">Auto Traffic Signal Control</a></h3>
+                            <span>A concept MVP to optimize traffic flow and reduce congestion.</span>
+                            <!-- <p class="icon">
                             <span><a href="#"><i class="icon-share3"></i></a></span>
                             <span><a href="#"><i class="icon-eye"></i> 100</a></span>
                             <span><a href="#"><i class="icon-heart"></i> 49</a></span>
-                        </p>
+                        </p> -->
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
