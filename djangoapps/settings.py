@@ -122,7 +122,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS =[
-    'foodmenu/static','home/static','djangoapps/static'
+    BASE_DIR / 'foodmenu/static',BASE_DIR / 'home/static',BASE_DIR / 'djangoapps/static'
 ]
 
 # Default primary key field type
