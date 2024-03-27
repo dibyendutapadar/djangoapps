@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-dy!q#x)6kwk5lj^uf=!$k-@k23d4javcyo(w#bt^fc4-mo0^%b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates','home/templates','foodmenu/templates','tafficsignal/templates'],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
