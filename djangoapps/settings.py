@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'trafficsignal.apps.TrafficsignalConfig',
     'home.apps.HomeConfig',
     'foodmenu.apps.FoodmenuConfig',
+    'crm.apps.CrmConfig',
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates'],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -122,10 +124,21 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS =[
-    BASE_DIR/'foodmenu'/'static',BASE_DIR/'home'/'static',BASE_DIR/'djangoapps'/'static'
+    BASE_DIR/'foodmenu'/'static',BASE_DIR/'home'/'static',BASE_DIR/'djangoapps'/'static',BASE_DIR/'blog'/'static'
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#--------------------------------------------------------------------------#
+####Email server configuration
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'dibyendutapadar@gmail.com'
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

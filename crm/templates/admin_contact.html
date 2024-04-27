@@ -1,0 +1,66 @@
+{% extends 'admin_home.html' %}
+
+{% block content %}
+<div id="main-content" class="bg-white p-5 rounded shadow">
+    <!-- Top Part -->
+    
+    <div class="flex justify-between items-center mb-4">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Import Contacts
+        </button>
+        <input type="text" placeholder="Search..." class="p-2 border rounded">
+        <a href="{% url 'add_contact' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Add New Contact
+        </a>
+    </div>
+    
+    <!-- Bottom Part: Contacts Table -->
+    <table class="min-w-full table-auto">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="px-4 py-2">Contact Name</th>
+                <th class="px-4 py-2">Description</th>
+                <th class="px-4 py-2">Created By</th>
+                <th class="px-4 py-2">Updated On</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+            <tr>
+                <td class="border px-4 py-2">{{ contact.contactName }}</td>
+                <td class="border px-4 py-2">{{ contact.jobTitle }}, {{ contact.designation }}@{{ contact.organization }}</td>
+                <td class="border px-4 py-2">{{ contact.createdBy }}</td>
+                <td class="border px-4 py-2">{{ contact.updatedOn }}</td>
+                <td class="border px-4 py-2">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                        View
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="mt-4">
+        <div class="pagination">
+            <span class="step-links">
+                {% if contacts.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ contacts.previous_page_number }}">previous</a>
+                {% endif %}
+                
+                <span class="current">
+                    Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+                </span>
+                
+                {% if contacts.has_next %}
+                    <a href="?page={{ contacts.next_page_number }}">next</a>
+                    <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -24,4 +24,6 @@ urlpatterns = [
     path('foodmenu/',include('foodmenu.urls')),
     path('',include('home.urls')),
     path('trafficsignal/',include('trafficsignal.urls')),
+    path('crm/',include('crm.urls')),
+    path('blog/',include('blog.urls',namespace='blog')),
 ]
