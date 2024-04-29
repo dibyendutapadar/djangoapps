@@ -28,7 +28,7 @@ def post_list(request,tag_slug=None):
         post_list = post_list.filter(tags__in=[tag])
 
 
-    paginator = Paginator(post_list,3)
+    paginator = Paginator(post_list,4)
     page_number=request.GET.get('page',1)
     try:
         posts = paginator.page(page_number)
@@ -43,7 +43,7 @@ def post_list(request,tag_slug=None):
                    'tag' : tag})
 
 
-def post_detail(request,year,month,day,post):
+def post_detail(request,year,month,day,post, page_number=1):
     post = get_object_or_404(Post,
                              status = Post.Status.PUBLISHED,
                              slug=post,
@@ -54,7 +54,16 @@ def post_detail(request,year,month,day,post):
     comments = post.comments.filter(active=True) 
     # Form for users to comment
     form = CommentForm()
-
+    pages = Paginator(post.pages.all(), 1)
+    try:
+        current_page = pages.get_page(page_number)
+    except PageNotAnInteger:
+        current_page = pages.page(1)
+    except EmptyPage:
+        # If page number is out of range (e.g. 9999), deliver last page of results.
+        current_page = pages.page(pages.num_pages)
+    print(pages)
+    print(current_page)
     #List of Similar Posts
     post_tag_ids = post.tags.values_list('id',flat=True)
     similar_posts=Post.published.filter(tags__in=post_tag_ids).exclude(id=post.id)
@@ -66,7 +75,8 @@ def post_detail(request,year,month,day,post):
                   {'post':post,
                    'comments':comments,
                    'form':form,
-                   'similar_posts':similar_posts})
+                   'similar_posts':similar_posts,
+                   'current_page':current_page})
 
 
 def post_share(request,post_id):

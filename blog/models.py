@@ -52,7 +52,23 @@ class Post(models.Model):
                              self.publish.month,
                              self.publish.day,
                              self.slug])
+
+class Page(models.Model):
+    post = models.ForeignKey(Post,
+                             on_delete=models.CASCADE,
+                             related_name='pages')
+    content = models.TextField()
+    # background_image=models.ImageField(upload_to='backgrounds/',blank=True,null=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
     
+    def __str__(self):
+        return f"{self.post.title} - Page {self.order}"
+
+
+
 class Comment(models.Model):
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,

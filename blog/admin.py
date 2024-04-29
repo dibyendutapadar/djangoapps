@@ -1,10 +1,14 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Post, Comment
+from .models import Post, Comment, Page
 
 
 
+
+class PageInLine(admin.StackedInline):
+    model = Page
+    extra = 1
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -15,6 +19,9 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ['author']
     date_hierarchy = 'publish'
     ordering = ['status','publish']
+    inlines = [PageInLine]
+
+
 
 
 @admin.register(Comment)

@@ -2,25 +2,64 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="dark">
+
 <head>
   <title>{% block title %}{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link href="{% static "css/blog.css" %}" rel="stylesheet">
 </head>
+
 <body>
-  <div id="content" class="container">
-    {% block content %}
-    {% endblock %}
+  <div class="container">
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        <a class="link-secondary" href="#">Subscribe</a>
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-dark" href="/blog">Dib's Blogs</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+      </div>
+    </div>
+  </header>
+  <div class="row g-5">
+    <div class="col-md-8">
+      
+      <article class="blog-post">
+        {% block content %}
+        {% endblock %}
+      </article>
+    </div>
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+        <div class="p-4 mb-3 bg-light rounded">
+          <h4 class="fst-italic">My blog</h4>
+          <p class="mb-0">
+            This is my blog. I write about Product Management
+            I have written {% total_posts %} posts so far
+          </p>
+        </div>
+
+        <div class="p-4">
+          <h4 class="fst-italic">Latest Posts</h4>
+        {% show_latest_posts 3 %}
+      </div>
+      </div>
+    </div>
   </div>
-  <div id="sidebar" class="container">
-    <h2>My blog</h2>
-    <p>
-      This is my blog.
-      I have written {% total_posts %} posts so far
-    </p>
-    <h3>Latest Posts</h3>
-    {% show_latest_posts 3 %}
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+  </script>
+</div>
 </body>
+
 </html>
