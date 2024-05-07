@@ -33,10 +33,13 @@ ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'trafficsignal.apps.TrafficsignalConfig',
+    'courses.apps.CoursesConfig',
+    'widget_tweaks',
     'home.apps.HomeConfig',
     'foodmenu.apps.FoodmenuConfig',
     'crm.apps.CrmConfig',
     'blog.apps.BlogConfig',
+    'vms.apps.VmsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +65,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates'],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +129,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS =[
-    BASE_DIR/'foodmenu'/'static',BASE_DIR/'home'/'static',BASE_DIR/'djangoapps'/'static',BASE_DIR/'blog'/'static'
+    BASE_DIR/'foodmenu'/'static',BASE_DIR/'home'/'static',BASE_DIR/'djangoapps'/'static',BASE_DIR/'blog'/'static',BASE_DIR/'vms'/'static'
 ]
 
 # Default primary key field type
@@ -143,3 +147,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_USE_TLS = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR/ 'media'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+      'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+],
+'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+ }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your API',
+    'DESCRIPTION': 'API for all things',
+    'VERSION': '1.0.0',
+    # Other settings
+}

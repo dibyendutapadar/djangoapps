@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My courses{% endblock %}
+{% block content %}
+<h1 class="h1">My courses</h1>
+<div class="module">
+    {% for course in object_list %}
+    <div class="course-info card">
+        <div class="card-body">
+            <h3 class="card-title">{{ course.title }}</h3>
+            <p>
+                <a class="card-link" href="{% url "course_edit" course.id %}">Edit</a>
+                <a class="card-link" href="{% url "course_delete" course.id %}">Delete</a>
+                <a class="card-link" href="{% url "course_module_update" course.id %}">Edit modules</a>
+            </p>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-primary" role="alert">
+    <p>You haven't created any courses yet.</p>
+    </div>
+    {% endfor %}
+  
+        <a type="button" class="btn btn-primary" href="{% url "course_create" %}" class="button">Create new course</a>
+</div>
+{% endblock %}
