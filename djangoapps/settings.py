@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1','dibyendut.pyth
 INSTALLED_APPS = [
     'trafficsignal.apps.TrafficsignalConfig',
     'courses.apps.CoursesConfig',
-    # 'widget_tweaks',
+    'widget_tweaks',
     'home.apps.HomeConfig',
     'foodmenu.apps.FoodmenuConfig',
     'crm.apps.CrmConfig',
