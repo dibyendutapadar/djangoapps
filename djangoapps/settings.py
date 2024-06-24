@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crm.apps.CrmConfig',
     'blog.apps.BlogConfig',
     'vms.apps.VmsConfig',
+    'cricket_score.apps.CricketScoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit',
     'rest_framework',
+    'django_select2',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +67,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates'],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates',BASE_DIR /'cricket_score/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,57 @@
+<!-- templates/take_score.html -->
+{% extends 'cricket_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Take Score for {{ match.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="umpires" class="form-label">Umpires Names</label>
+            <input type="text" name="umpires" class="form-control" id="umpires" required>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Match Location</label>
+            <input type="text" name="location" class="form-control" id="location" required>
+        </div>
+        <div class="mb-3">
+            <label for="toss_won_by" class="form-label">Toss Won By</label>
+            <select name="toss_won_by" class="form-select" id="toss_won_by" required>
+                <option value="" selected>Select Team</option>
+                <option value="{{ match.team1.id }}">{{ match.team1.name }}</option>
+                <option value="{{ match.team2.id }}">{{ match.team2.name }}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="first_batting_team" class="form-label">First Batting Team</label>
+            <select name="first_batting_team" class="form-select" id="first_batting_team" required>
+                <option value="" selected>Select Team</option>
+                <option value="{{ match.team1.id }}">{{ match.team1.name }}</option>
+                <option value="{{ match.team2.id }}">{{ match.team2.name }}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="second_batting_team" class="form-label">Second Batting Team</label>
+            <input type="text" name="second_batting_team" class="form-control" id="second_batting_team" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('first_batting_team').addEventListener('change', function() {
+        var firstBattingTeam = this.value;
+        var secondBattingTeamInput = document.getElementById('second_batting_team');
+        var team1Name = "{{ match.team1.name }}";
+        var team2Name = "{{ match.team2.name }}";
+
+        if (firstBattingTeam == "{{ match.team1.id }}") {
+            secondBattingTeamInput.value = team2Name;
+        } else if (firstBattingTeam == "{{ match.team2.id }}") {
+            secondBattingTeamInput.value = team1Name;
+        } else {
+            secondBattingTeamInput.value = '';
+        }
+    });
+</script>
+{% endblock %}

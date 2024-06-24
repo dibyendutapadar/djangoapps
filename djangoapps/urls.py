@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('',views.index, name='index'),
     path('foodmenu/',include('foodmenu.urls')),
+    path('cricketscore/',include('cricket_score.urls')),
+    path('cricketscore/select2/', include('django_select2.urls')),
     path('lms/',include('courses.urls')),
     path('',include('home.urls')),
     path('trafficsignal/',include('trafficsignal.urls')),

@@ -1,0 +1,64 @@
+<!-- templates/add_players.html -->
+{% extends 'cricket_base.html' %}
+
+{% load form_tags range_filter %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between">
+        <h1>Add Players</h1>
+        <a href="{% url 'start_match' match.id %}" class="btn btn-secondary">I will add players during the match</a>
+    </div>
+    <form method="post" id="addPlayersForm">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{ team1.name }}</h3>
+                <input type="hidden" name="team1_id" value="{{ team1.id }}">
+                {% for i in 1|to:12 %}
+                    <div class="mb-3">
+                        <input type="text" name="team1_player{{ i }}" class="form-control player-typeahead" data-team-id="{{ team1.id }}" placeholder="Player {{ i }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <h3>{{ team2.name }}</h3>
+                <input type="hidden" name="team2_id" value="{{ team2.id }}">
+                {% for i in 1|to:12 %}
+                    <div class="mb-3">
+                        <input type="text" name="team2_player{{ i }}" class="form-control player-typeahead" data-team-id="{{ team2.id }}" placeholder="Player {{ i }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.player-typeahead').each(function(){
+            var teamId = $(this).data('team-id');
+            $(this).typeahead({
+                source: function(query, process){
+                    return $.get("{% url 'player_autocomplete' %}", { team_id: teamId, query: query }, function(data){
+                        return process(data);
+                    });
+                }
+            });
+        });
+
+        $('#addPlayersForm').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(data){
+                    window.location.href = "{% url 'start_match' match.id %}";
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

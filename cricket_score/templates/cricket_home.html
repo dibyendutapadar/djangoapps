@@ -1,0 +1,8 @@
+<!-- templates/home.html -->
+{% extends 'cricket_base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <a href="{% url 'new_match' %}" class="btn btn-primary btn-lg">New Match</a>
+</div>
+{% endblock %}

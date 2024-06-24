@@ -1,0 +1,38 @@
+<!-- templates/start_match.html -->
+{% extends 'cricket_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ match.name }}</h1>
+    <p><strong>Date:</strong> {{ match.date }}</p>
+    <p><strong>Overs:</strong> {{ match.overs }}</p>
+    <p><strong>Description:</strong> {{ match.description }}</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>{{ match.team1.name }}</h3>
+            <ul class="list-group">
+                {% for player in match.match_players.all %}
+                    {% if player.team == match.team1 %}
+                    <li class="list-group-item">{{ player.player.name }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>{{ match.team2.name }}</h3>
+            <ul class="list-group">
+                {% for player in match.match_players.all %}
+                    {% if player.team == match.team2 %}
+                    <li class="list-group-item">{{ player.player.name }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'take_score' match.id %}" class="btn btn-primary">Record Score</a>
+    </div>
+</div>
+{% endblock %}

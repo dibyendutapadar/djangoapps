@@ -1,0 +1,131 @@
+<!-- templates/new_match.html -->
+{% extends 'cricket_base.html' %}
+
+{% load form_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Add Match</h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Name</label>
+            {{ form.name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_team1" class="form-label">Team1</label>
+            <div class="input-group">
+                {{ form.team1|add_class:"form-select" }}
+                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#addTeamModal">+</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_team2" class="form-label">Team2</label>
+            <div class="input-group">
+                {{ form.team2|add_class:"form-select" }}
+                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#addTeamModal">+</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_overs" class="form-label">Overs</label>
+            {{ form.overs|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_date" class="form-label">Date</label>
+            {{ form.date|add_class:"form-control datepicker" }}
+            <script>
+                $('#datepicker').datepicker({
+                    uiLibrary: 'bootstrap5'
+                });
+            </script>
+        </div>
+        <div class="mb-3">
+            <label for="id_tournament" class="form-label">Tournament</label>
+            <div class="input-group">
+                {{ form.tournament|add_class:"form-select" }}
+                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#addTournamentModal">+</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Description</label>
+            {{ form.description|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+<!-- Modal for adding a new team -->
+<div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="addTeamModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTeamModalLabel">Add Team</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTeamForm" method="post" action="{% url 'add_team' %}">
+                    {% csrf_token %}
+                    {{ team_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding a new tournament -->
+<div class="modal fade" id="addTournamentModal" tabindex="-1" aria-labelledby="addTournamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTournamentModalLabel">Add Tournament</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTournamentForm" method="post" action="{% url 'add_tournament' %}">
+                    {% csrf_token %}
+                    {{ tournament_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $('#addTeamForm').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(data){
+                    $('#addTeamModal').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+
+        $('#addTournamentForm').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(data){
+                    $('#addTournamentModal').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
