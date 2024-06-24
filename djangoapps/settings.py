@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-dy!q#x)6kwk5lj^uf=!$k-@k23d4javcyo(w#bt^fc4-mo0^%b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1','dibyendut.pythonanywhere.com']
 
 
 # Application definition
@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1']
 INSTALLED_APPS = [
     'trafficsignal.apps.TrafficsignalConfig',
     'courses.apps.CoursesConfig',
-    'widget_tweaks',
+    # 'widget_tweaks',
     'home.apps.HomeConfig',
     'foodmenu.apps.FoodmenuConfig',
     'crm.apps.CrmConfig',
