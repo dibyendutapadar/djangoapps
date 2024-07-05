@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'widget_tweaks',
     'home.apps.HomeConfig',
+    'ecomm.apps.EcommConfig',
     'foodmenu.apps.FoodmenuConfig',
     'crm.apps.CrmConfig',
     'blog.apps.BlogConfig',
     'vms.apps.VmsConfig',
     'cricket_score.apps.CricketScoreConfig',
+    'demand_forecasting.apps.DemandForecastingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,7 +52,13 @@ INSTALLED_APPS = [
     'taggit',
     'rest_framework',
     'django_select2',
+    'django_tables2',
+    'viewflow',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,7 +75,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates',BASE_DIR /'cricket_score/templates'],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates',BASE_DIR /'cricket_score/templates',BASE_DIR /'demand_forecasting/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
