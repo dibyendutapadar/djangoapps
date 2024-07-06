@@ -19,6 +19,11 @@ class ForecastingForm(forms.ModelForm):
             'help_text': 'Select the date format that matches your data.'
         })
     )
+    frequency = forms.ChoiceField(
+        choices=[('D', 'D'), ('W', 'W'), ('M', 'M'), ('Q', 'Q')],
+        required=False,
+        help_text="Frequency of data."
+    )
 
     class Meta:
         model = ForecastingRequest

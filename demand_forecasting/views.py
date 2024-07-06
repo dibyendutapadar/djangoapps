@@ -96,6 +96,7 @@ class ConfigureForecastView(View):
         if form.is_valid():
             date_column = form.cleaned_data['date_column']
             user_date_format = form.cleaned_data['date_format']
+            frequency = form.cleaned_data['frequency']
             date_format = convert_to_strftime_format(user_date_format)
             preview_data = request.session.get('preview', [])
             df_html = df.head().to_html(classes='table table-striped')
@@ -111,6 +112,8 @@ class ConfigureForecastView(View):
                 })
 
             demand_column = form.cleaned_data['demand_column']
+            frequency = form.cleaned_data['frequency']
+            print('Frequency',frequency) #debug
             forecast_days = form.cleaned_data['forecast_days']
             train_test_split = form.cleaned_data['train_test_split']
 
@@ -121,6 +124,7 @@ class ConfigureForecastView(View):
                 date_format=date_format,
                 demand_column=demand_column,
                 forecast_days=forecast_days,
+                frequency=frequency,
                 train_test_split=train_test_split
             )
 
@@ -150,13 +154,17 @@ class ForecastResultView(View):
         df_dict = request.session.get('df')
         df = pd.DataFrame(df_dict)
         date_column = last_request.date_column
+        frequency = last_request.frequency
         date_format = last_request.date_format
         demand_column = last_request.demand_column
         forecast_days = last_request.forecast_days
         train_test_split = last_request.train_test_split
 
+        print(df.head()) #debug
+
         df[date_column] = pd.to_datetime(df[date_column], format=date_format)
         df = df.set_index(date_column)
+        # df = df.asfreq(frequency)
         df = df[[demand_column]].dropna()
 
         if len(df) == 0:
@@ -182,7 +190,7 @@ class ForecastResultView(View):
             'optimized': True
         })
 
-        context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=True, freq=df.index.freq)
+        context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=True, freq=frequency)
         return render(request, 'results.html', context)
 
     def post(self, request):
@@ -194,9 +202,12 @@ class ForecastResultView(View):
         df = pd.DataFrame(df_dict)
         date_column = last_request.date_column
         date_format = last_request.date_format
+        frequency = last_request.frequency
         demand_column = last_request.demand_column
         forecast_days = last_request.forecast_days
         train_test_split = last_request.train_test_split
+
+
 
         df[date_column] = pd.to_datetime(df[date_column], format=date_format)
         df = df.set_index(date_column)
@@ -208,7 +219,6 @@ class ForecastResultView(View):
         df[demand_column] = pd.to_numeric(df[demand_column], errors='coerce').fillna(0)
 
         split_idx = int(len(df) * (train_test_split/100))
-        print("Split_idx:",split_idx) #debugging
         if split_idx == 0 or split_idx >= len(df):
             return render(request, 'results.html', {'error': 'The split index is out of bounds. Please check your data and split ratio.'})
 
@@ -219,10 +229,10 @@ class ForecastResultView(View):
         form = ExponentialSmoothingForm(request.POST)
 
         if form.is_valid():
-            context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=False, freq=df.index.freq)
+            context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=False, freq=frequency)
             return render(request, 'results.html', context)
         else:
-            context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=False, freq=df.index.freq)
+            context = self.get_forecast_context(train, test, df, demand_column, forecast_days, form, is_get=False, freq=frequency)
             context['error'] = 'Invalid form input'
             return render(request, 'results.html', context)
 
@@ -252,11 +262,14 @@ class ForecastResultView(View):
 
         # Historical forecast
         historical_forecast = fit.fittedvalues
-
+        print("Frequency", freq) #debugging
         # Future forecast
         future_forecast_index = pd.date_range(start=df.index[-1], periods=forecast_days + 1, inclusive='right', freq=freq)[1:]
+        print("FUTURE FORECAST",future_forecast_index) #debugging
         future_forecast = fit.forecast(forecast_days)
         future_forecast = pd.Series(future_forecast, index=future_forecast_index)
+
+        print(future_forecast) #debugging
 
         # Calculate KPIs for historical forecast
         error = round((historical_forecast - df[demand_column]).mean(), 2)
