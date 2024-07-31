@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_select2',
     'django_tables2',
-    'viewflow',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
