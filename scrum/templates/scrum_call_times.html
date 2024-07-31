@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% block title %}Scrum Call Times{% endblock %}
+{% block content %}
+<h2>Scrum Call Times</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time Taken</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for call in scrum_calls %}
+        <tr>
+            <td>{{ call.date }}</td>
+            <td>{{ call.time_taken }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- Add graph for time taken for the last seven days -->
+{% endblock %}

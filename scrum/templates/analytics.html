@@ -1,0 +1,88 @@
+{% extends "base_generic.html" %}
+{% block title %}Sprint Analytics{% endblock %}
+{% block content %}
+<h2>Sprint Analytics</h2>
+
+<h3>Velocity</h3>
+<p>Total Story Points Completed: {{ total_story_points_completed }}</p>
+<p>Total Story Points In Progress: {{ total_story_points_in_progress }}</p>
+
+<h3>Burn Down Chart</h3>
+<canvas id="burnDownChart"></canvas>
+
+<h3>Developer-wise Analytics</h3>
+<table class="table table-striped table-responsive" style="font-size: small;">
+    <thead>
+        <tr>
+            <th>Developer</th>
+            <th>Tasks Completed</th>
+            <th>Tasks In Progress</th>
+            <th>Tasks Not Started</th>
+            <th>Tasks Blocked</th>
+            <th>Total Story Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for developer, analytics in developer_analytics.items %}
+        <tr>
+            <td>{{ developer }}</td>
+            <td>{{ analytics.tasks_completed }}</td>
+            <td>{{ analytics.tasks_in_progress }}</td>
+            <td>{{ analytics.tasks_not_started }}</td>
+            <td>{{ analytics.tasks_blocked }}</td>
+            <td>{{ analytics.total_story_points }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Sprint Time Bar Chart (Last 7 Records)</h3>
+<canvas id="sprintTimeChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const burnDownCtx = document.getElementById('burnDownChart').getContext('2d');
+    const burnDownChart = new Chart(burnDownCtx, {
+        type: 'line',
+        data: {
+            labels: {{ burn_down_dates | safe }},
+            datasets: [{
+                label: 'Story Points Remaining',
+                data: {{ burn_down_points | safe }},
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const sprintTimeCtx = document.getElementById('sprintTimeChart').getContext('2d');
+    const sprintTimeChart = new Chart(sprintTimeCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ sprint_dates | safe }},
+            datasets: [{
+                label: 'Sprint Time (minutes)',
+                data: {{ sprint_times | safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

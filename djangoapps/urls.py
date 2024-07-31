@@ -32,6 +32,7 @@ urlpatterns = [
     path('lms/',include('courses.urls')),
     path('',include('home.urls')),
     path('trafficsignal/',include('trafficsignal.urls')),
+    path('scrum/',include('scrum.urls')),
     path('crm/',include('crm.urls')),
     path('vms/api/',include('vms.api.urls')),
     path('blog/',include('blog.urls',namespace='blog')),

@@ -1,0 +1,7 @@
+{% extends "base_generic.html" %}
+{% block title %}Error{% endblock %}
+{% block content %}
+<h2>Error</h2>
+<p>{{ message }}</p>
+<a href="{% url 'scrum:start_scrum_call' %}" class="btn btn-primary">Go Back</a>
+{% endblock %}

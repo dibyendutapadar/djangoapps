@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+{% block title %}Start Scrum Call{% endblock %}
+{% block content %}
+<h2>Scrum Call</h2>
+<!-- <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User Story</th>
+            <th>Task ID</th>
+            <th>Task Description</th>
+            <th>Priority</th>
+            <th>Assigned To</th>
+            <th>Story Points</th>
+            <th>Start Date</th>
+            <th>Status</th>
+            <th>Blockers</th>
+            <th>Last Status Update</th>
+            <th>Estimated End Date</th>
+            <th>End Date</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in sprint_data %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> -->
+<div class="mt-4">
+    <a href="{% url 'scrum:update_sprint_status' %}" class="btn btn-primary">Start Scrum</a>
+</div>
+<!-- <h3 class="mt-5">Developers</h3> -->
+<!-- <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Developer ID</th>
+            <th>Developer Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in developer_data %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> -->
+{% endblock %}

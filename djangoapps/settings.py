@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crm.apps.CrmConfig',
     'blog.apps.BlogConfig',
     'vms.apps.VmsConfig',
+    'scrum.apps.ScrumConfig',
     'cricket_score.apps.CricketScoreConfig',
     'demand_forecasting.apps.DemandForecastingConfig',
     'django.contrib.admin',
@@ -75,7 +76,7 @@ ROOT_URLCONF = 'djangoapps.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates',BASE_DIR /'cricket_score/templates',BASE_DIR /'demand_forecasting/templates',],
+        'DIRS': [BASE_DIR /'templates',BASE_DIR /'home/templates',BASE_DIR /'foodmenu/templates',BASE_DIR /'tafficsignal/templates',BASE_DIR /'crm/templates',BASE_DIR /'courses/templates',BASE_DIR /'blog/templates',BASE_DIR /'vms/templates',BASE_DIR /'cricket_score/templates',BASE_DIR /'demand_forecasting/templates',BASE_DIR /'scrum/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
